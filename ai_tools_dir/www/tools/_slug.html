@@ -1,0 +1,102 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<div class="ai-tools-container">
+  {% if tool %}
+    <div class="ai-tool-detail">
+      <div class="tool-hero">
+        {% if tool.logo %}
+          <img class="hero-logo" src="{{ tool.logo }}" alt="{{ tool.tool_name }} logo" />
+        {% endif %}
+        
+        <div class="hero-content">
+          <h1>{{ tool.tool_name }}</h1>
+          
+          <div class="tool-meta">
+            {% if tool.pricing %}
+              <div class="meta-item">
+                <span>💰</span>
+                <span>{{ tool.pricing }}</span>
+              </div>
+            {% endif %}
+            {% if tool.category %}
+              <div class="meta-item">
+                <span>📁</span>
+                <span>{{ tool.category }}</span>
+              </div>
+            {% endif %}
+            {% if tool.average_rating %}
+              <div class="meta-item">
+                <span>⭐</span>
+                <span>{{ tool.average_rating }}{% if tool.review_count %} ({{ tool.review_count }} reviews){% endif %}</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      {% if tool.description %}
+        <div class="tool-description">
+          {{ tool.description }}
+        </div>
+      {% endif %}
+
+      <div class="tool-actions">
+        {% if tool.website %}
+          <a href="{{ tool.website }}" target="_blank" rel="noopener" class="visit-btn">Visit Website</a>
+        {% endif %}
+        
+        <button onclick="return upvote('{{ tool.slug }}', this)" class="upvote-btn {% if has_voted %}voted{% endif %}">
+          {% if has_voted %}▼ Remove Upvote{% else %}▲ Upvote{% endif %}
+        </button>
+        <span class="upvote-count">{{ tool.upvote_count or 0 }}</span>
+      </div>
+
+      {% if reviews %}
+        <div class="ai-reviews">
+          <h2>Reviews</h2>
+          {% for r in reviews %}
+            <div class="review-item">
+              <div class="review-header">
+                <span class="rating">{{ r.rating }}/5</span>
+                {% if r.user %}
+                  <span class="reviewer">by {{ r.user }}</span>
+                {% endif %}
+              </div>
+              {% if r.comment %}
+                <div class="review-comment">{{ r.comment }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="ai-tool-detail">
+      <h1>Tool Not Found</h1>
+      <p>The tool you're looking for doesn't exist or has been removed.</p>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function upvote(slug, btn){
+    fetch('/api/method/ai_tools_dir.api.vote.toggle_upvote?slug=' + encodeURIComponent(slug), {
+      method: 'GET'
+    }).then(function(r){ return r.json(); }).then(function(data){
+      if (data && data.message && data.message.login_required){
+        window.location.href = '/login';
+      } else {
+        // Update count without page reload
+        var countSpan = document.querySelector('.upvote-count');
+        var currentCount = parseInt(countSpan.textContent) || 0;
+        countSpan.textContent = currentCount + (data.message.status === 'added' ? 1 : -1);
+        // Toggle button text and class
+        btn.textContent = data.message.status === 'added' ? '▼ Remove Upvote' : '▲ Upvote';
+        btn.classList.toggle('voted', data.message.status === 'added');
+      }
+    }).catch(function(){});
+    return false;
+  }
+</script>
+{% endblock %}
+

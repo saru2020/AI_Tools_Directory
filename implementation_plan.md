@@ -12,9 +12,6 @@ Day 1: Setup & Foundations
   - [x] Create new site + new app
   - [x] Configure MariaDB, Redis
   - [x] Init repo + push to GitHub
-- [x] CI/CD
-  - [x] Setup GitHub Actions workflow for deploy
-  - [x] Configure staging (local) + prod (VPS or Docker)
 - [ ] Theme/UI
   - [ ] Pick Frappe theme
   - [ ] Add navbar (Home, Categories, Submit Tool, Blog)
@@ -26,14 +23,6 @@ Day 1: Setup & Foundations
 - [x] Repo Hygiene
   - [x] Add .editorconfig, pre-commit with black/isort/ruff and eslint/prettier
   - [x] Add CONTRIBUTING.md with setup, branching, and PR rules
-- [x] CI/CD Enhancements
-  - [x] Cache bench/node/pip deps; run unit tests and build assets
-  - [x] Add database migration step; deploy with rollback
-  - [x] Keep environment parity between staging and prod
-- [ ] Ops
-  - [ ] Domain + TLS plan
-  - [ ] Backups/restore strategy
-  - [ ] Sentry/error reporting and basic logs/metrics
 
 ---
 
@@ -64,13 +53,13 @@ Day 2: Database Schema (Doctypes)
 ---
 
 Day 3: Core Features
-- [ ] Directory Pages
-  - [ ] Tool listing grid
-  - [ ] Category filter
-  - [ ] Search bar
-- [ ] Tool Detail Page
-  - [ ] Show description, pricing, tags
-  - [ ] Show reviews
+- [x] Directory Pages
+  - [x] Tool listing grid
+  - [x] Category filter
+  - [x] Search bar
+- [x] Tool Detail Page
+  - [x] Show description, pricing, tags
+  - [x] Show reviews
   - [ ] "Similar tools" (same category)
 - [ ] Category Pages
   - [ ] Tools grouped by category
@@ -78,8 +67,8 @@ Day 3: Core Features
   - [ ] CRUD for tools, categories, stacks
   - [ ] Basic analytics (views/clicks logging)
 
-- [ ] UX/SEO Enhancements
-  - [ ] Pagination and sorting (Newest, Popular, Top Rated) on listings
+- [x] UX/SEO Enhancements
+  - [x] Pagination and sorting (Newest, Popular, Top Rated) on listings
   - [ ] SEO-friendly URLs: /tools/<slug>, /categories/<slug>, /collections/<slug>
   - [ ] JSON-LD structured data and canonical tags on detail pages
   - [ ] Image handling: logo upload, resizing, WebP, caching/CDN headers
@@ -139,8 +128,8 @@ Day 6: Community Layer
   - [ ] Store rating + comment + user link
 - [ ] Reviews Moderation & Rules
   - [ ] One review per user per tool; edit/delete window; flag/report abuse; moderator tools
-- [ ] Voting
-  - [ ] Add upvote button (per tool)
+- [x] Voting
+  - [x] Add upvote button (per tool)
   - [ ] Show "Most Upvoted Tools"
 - [ ] Voting Anti-abuse
   - [ ] One vote per user/tool; rate limiting; basic IP/device heuristics; cache hot lists

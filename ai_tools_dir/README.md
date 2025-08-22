@@ -42,6 +42,27 @@ bench --site ai-tools.localhost install-app ai_tools_dir
 
 bench start
 
+Import seed CSV into Tool
+-------------------------
+
+To import the normalized CSV of tools into the `Tool` doctype:
+
+```bash
+bench --site ai-tools.localhost execute ai_tools_dir.etl.import_tools.run --kwargs '{"csv_path": "/Users/saravanan/Documents/personal/github/AI_Tools/ai_tools_bench/apps/ai_tools_dir/ai_tools_seed.csv"}'
+```
+
+This upserts by `slug` (derived from `domain`) and creates/updates records accordingly.
+
+Backfill Categories
+-------------------
+
+Create any missing categories and relink existing tools (defaults missing to "General"):
+
+```bash
+bench --site ai-tools.localhost execute ai_tools_dir.etl.backfill_categories.run
+bench clear-website-cache
+```
+
 Repo standards
 
 - Formatting/linting via pre-commit (black, ruff, hygiene hooks)

@@ -1,0 +1,25 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<div class="ai-tools-container">
+  <div class="ai-tools-header">
+    <h1>Categories</h1>
+    <p class="subtitle">Browse AI tools by category</p>
+  </div>
+  
+  {% set categories = frappe.get_all("Category", fields=["name", "slug", "description"]) %}
+  
+  <div class="ai-categories-grid">
+    {% for c in categories %}
+      <div class="ai-category-card">
+        <h3>
+          <a href="/categories/{{ c.slug }}">{{ c.name }}</a>
+        </h3>
+        {% if c.description %}
+          <div class="category-description">{{ c.description }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+

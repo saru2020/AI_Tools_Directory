@@ -1,0 +1,172 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<div class="ai-tools-container">
+  <div class="ai-tools-header">
+    <h1>AI Tools Directory</h1>
+    <p class="subtitle">Discover the best AI tools for your workflow</p>
+  </div>
+  
+  <div class="ai-tools-filters">
+    <form method="get" class="d-flex gap-3 flex-wrap align-items-end">
+      <div class="flex-grow-1">
+        <input id="tools-search" type="text" name="q" value="{{ frappe.form_dict.q or '' }}" placeholder="Search tools..." class="search-input w-100" autofocus />
+      </div>
+      <div>
+        <select name="category" onchange="this.form.submit()" class="filter-select">
+          <option value="">All Categories</option>
+          {% for c in frappe.get_all('Category', fields=['name','slug']) %}
+            <option value="{{ c.slug }}" {% if frappe.form_dict.category == c.slug %}selected{% endif %}>{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <select name="sort" onchange="this.form.submit()" class="filter-select">
+          <option value="modified desc" {% if (frappe.form_dict.sort or 'modified desc') == 'modified desc' %}selected{% endif %}>Newest</option>
+          <option value="average_rating desc" {% if frappe.form_dict.sort == 'average_rating desc' %}selected{% endif %}>Top Rated</option>
+        </select>
+      </div>
+      <div>
+        <a href="/tools" class="reset-link">Reset</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (function(){
+      var input = document.getElementById('tools-search');
+      if (!input) return;
+      var form = input.form;
+      var t;
+      input.addEventListener('input', function(){
+        if (t) clearTimeout(t);
+        t = setTimeout(function(){ form.submit(); }, 300);
+      });
+      // Keep focus after refresh
+      try {
+        input.focus();
+        var len = input.value.length;
+        input.setSelectionRange(len, len);
+      } catch (e) {}
+    })();
+  </script>
+
+  {% set q = frappe.form_dict.q %}
+  {% set sort = frappe.form_dict.sort or 'modified desc' %}
+  {% set page = (frappe.form_dict.page or 1) | int %}
+  {% set page_size = 24 %}
+  {% set start = (page - 1) * page_size %}
+  {% if q %}
+    {% set search = "%" ~ q ~ "%" %}
+    {% set filters = [["tool_name", "like", search]] %}
+  {% else %}
+    {% set filters = [] %}
+  {% endif %}
+  {% if frappe.form_dict.category %}
+    {% set filters = filters + [["category", "=", frappe.db.get_value('Category', {"slug": frappe.form_dict.category}, 'name')]] %}
+  {% endif %}
+  {% set tools = frappe.get_all(
+      "Tool",
+      fields=["name", "tool_name", "slug", "pricing", "logo", "average_rating", "upvote_count"],
+      filters=filters,
+      order_by=sort,
+      start=start,
+      limit=page_size,
+  ) %}
+  {% set my_votes = frappe.get_all('Tool Vote', fields=['tool'], filters={'user': frappe.session.user} ) if frappe.session.user and frappe.session.user != 'Guest' else [] %}
+  {% set my_voted_tools = (my_votes | map(attribute='tool') | list) %}
+  {% set total = frappe.db.count('Tool', filters=filters) %}
+  {% set total_pages = ((total + page_size - 1) // page_size) %}
+  
+  <div class="ai-stats">
+    {% if total == 0 %}
+      No results found.
+    {% else %}
+      Showing {{ tools|length }} of {{ total }} tools
+    {% endif %}
+  </div>
+
+  <div class="ai-tools-grid">
+    {% for t in tools %}
+    <div class="ai-tool-card">
+      {% if t.logo %}
+        <a href="/tools/{{ t.slug }}" onclick="return trackClick('{{ t.slug }}')">
+          <img class="tool-logo" src="{{ t.logo }}" alt="{{ t.tool_name }} logo" />
+        </a>
+      {% endif %}
+      
+      <h3 class="tool-title">
+        <a href="/tools/{{ t.slug }}" onclick="return trackClick('{{ t.slug }}')">{{ t.tool_name }}</a>
+      </h3>
+      
+      <div class="tool-meta">
+        {% if t.pricing %}
+          <div class="meta-item">
+            <span>💰</span>
+            <span>{{ t.pricing }}</span>
+          </div>
+        {% endif %}
+        {% if t.average_rating %}
+          <div class="meta-item">
+            <span>⭐</span>
+            <span>{{ t.average_rating }}</span>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="tool-actions">
+        {% set voted = t.name in my_voted_tools %}
+        <button onclick="return upvote('{{ t.slug }}', this, '{{ t.name }}')" class="upvote-btn {% if voted %}voted{% endif %}">
+          {% if voted %}▼ Remove Upvote{% else %}▲ Upvote{% endif %}
+        </button>
+        <span class="upvote-count">{{ t.upvote_count or 0 }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if total_pages > 1 %}
+    <div class="ai-pagination">
+      {% if page > 1 %}
+        <a href="?page={{ page - 1 }}{% if q %}&q={{ q }}{% endif %}{% if frappe.form_dict.category %}&category={{ frappe.form_dict.category }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="page-link">← Previous</a>
+      {% endif %}
+      <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+      {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}{% if q %}&q={{ q }}{% endif %}{% if frappe.form_dict.category %}&category={{ frappe.form_dict.category }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="page-link">Next →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <script>
+    function trackClick(slug){
+      try {
+        fetch('/api/method/ai_tools_dir.api.track.click_tool', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: slug })
+        }).catch(function(){});
+      } catch(e) {}
+      return true;
+    }
+    
+    function upvote(slug, btn, toolName){
+      fetch('/api/method/ai_tools_dir.api.vote.toggle_upvote?slug=' + encodeURIComponent(slug), {
+        method: 'GET'
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if (data && data.message && data.message.login_required){
+          window.location.href = '/login';
+        } else {
+          // Update count without page reload
+          var countSpan = btn.parentNode.querySelector('.upvote-count');
+          var currentCount = parseInt(countSpan.textContent) || 0;
+          countSpan.textContent = currentCount + (data.message.status === 'added' ? 1 : -1);
+          // Toggle button text and class
+          btn.textContent = data.message.status === 'added' ? '▼ Remove Upvote' : '▲ Upvote';
+          btn.classList.toggle('voted', data.message.status === 'added');
+        }
+      }).catch(function(){});
+      return false;
+    }
+  </script>
+</div>
+{% endblock %}
+

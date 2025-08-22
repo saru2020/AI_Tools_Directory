@@ -30,11 +30,11 @@ app_description = "Directory of AI tools built with Frappe"
 # app_include_js = "/assets/ai_tools_dir/js/ai_tools_dir.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/ai_tools_dir/css/ai_tools_dir.css"
+web_include_css = "/assets/ai_tools_dir/css/ai_tools.css"
 # web_include_js = "/assets/ai_tools_dir/js/ai_tools_dir.js"
 
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "ai_tools_dir/public/scss/website"
+# website_theme_scss = "ai_tools_dir/public/scss/ai_tools"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -69,7 +69,14 @@ app_description = "Directory of AI tools built with Frappe"
 # ----------
 
 # automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
+# Using dynamic route in www/tools/[slug].py for tool detail
+
+# Website route redirects and dynamic routes
+website_route_rules = [
+    {"from_route": "/tool/<slug>", "to_route": "tools/<slug>"},
+    {"from_route": "/tools/<slug>", "to_route": "/tools/_slug"},
+    {"from_route": "/categories/<slug>", "to_route": "/categories/_slug"},
+]
 
 # Jinja
 # ----------
@@ -84,7 +91,7 @@ app_description = "Directory of AI tools built with Frappe"
 # ------------
 
 # before_install = "ai_tools_dir.install.before_install"
-# after_install = "ai_tools_dir.install.after_install"
+after_install = "ai_tools_dir.install.after_install"
 
 # Uninstallation
 # ------------
@@ -138,34 +145,22 @@ app_description = "Directory of AI tools built with Frappe"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    "Review": {
+        "after_insert": "ai_tools_dir.events.reviews.update_tool_aggregates",
+        "on_update": "ai_tools_dir.events.reviews.update_tool_aggregates",
+        "on_trash": "ai_tools_dir.events.reviews.update_tool_aggregates",
+    }
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"ai_tools_dir.tasks.all"
-# 	],
-# 	"daily": [
-# 		"ai_tools_dir.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"ai_tools_dir.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"ai_tools_dir.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"ai_tools_dir.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "hourly": [
+        "ai_tools_dir.events.reviews.backfill_all_tool_aggregates",
+    ]
+}
 
 # Testing
 # -------
@@ -242,4 +237,9 @@ app_description = "Directory of AI tools built with Frappe"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
+# Public API endpoints
+override_whitelisted_methods = {
+    "ai_tools_dir.api.vote.toggle_upvote": "ai_tools_dir.api.vote.toggle_upvote",
+}
 

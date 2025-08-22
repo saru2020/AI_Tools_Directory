@@ -27,6 +27,9 @@
   "permissions": [
     {"role": "System Manager", "create": 1, "read": 1, "write": 1, "delete": 1},
     {"role": "Administrator", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "Moderator", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "Author", "create": 1, "read": 1, "write": 1},
+    {"role": "Website User", "read": 1},
     {"role": "All", "read": 1}
   ]
 }

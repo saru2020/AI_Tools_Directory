@@ -1,0 +1,501 @@
+/* AI Tools Directory - Modern Clean Design */
+
+/* Custom variables */
+:root {
+  --primary-color: #3b82f6;
+  --secondary-color: #64748b;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --light-bg: #f8fafc;
+  --border-color: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dark: #1e293b;
+}
+
+/* Global styles */
+.ai-tools-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .ai-tools-container {
+    padding: 3rem 2rem;
+  }
+}
+
+/* Header */
+.ai-tools-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.ai-tools-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .ai-tools-header h1 {
+    font-size: 3.5rem;
+  }
+}
+
+.ai-tools-header .subtitle {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Search and filters */
+.ai-tools-filters {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ai-tools-filters form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.ai-tools-filters .flex-grow-1 {
+  flex: 1;
+  min-width: 200px;
+}
+
+.ai-tools-filters .search-input {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.ai-tools-filters .search-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+.ai-tools-filters .filter-select {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.2s ease;
+  min-width: 150px;
+  /* Add padding for arrow icon */
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  appearance: none;
+}
+
+.ai-tools-filters .filter-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+.ai-tools-filters .reset-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-block;
+  border: 2px solid var(--border-color);
+  background: white;
+}
+
+.ai-tools-filters .reset-link:hover {
+  background: var(--light-bg);
+  color: var(--text-dark);
+  border-color: var(--text-muted);
+}
+
+/* Tool cards */
+.ai-tools-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 1.5rem !important;
+  margin-bottom: 2rem !important;
+  width: 100% !important;
+}
+
+.ai-tool-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-tool-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ai-tool-card .tool-logo {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--light-bg);
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.ai-tool-card .tool-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.ai-tool-card .tool-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ai-tool-card .tool-title a:hover {
+  color: var(--primary-color);
+}
+
+.ai-tool-card .tool-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.ai-tool-card .tool-meta .meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ai-tool-card .tool-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.ai-tool-card .tool-actions .upvote-btn {
+  background: var(--light-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-tool-card .tool-actions .upvote-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.ai-tool-card .tool-actions .upvote-btn.voted {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.ai-tool-card .tool-actions .upvote-count {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Tool detail page */
+.ai-tool-detail {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ai-tool-detail .tool-hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .ai-tool-detail .tool-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.ai-tool-detail .tool-hero .hero-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: var(--light-bg);
+  border: 1px solid var(--border-color);
+}
+
+.ai-tool-detail .tool-hero .hero-content {
+  flex: 1;
+}
+
+.ai-tool-detail .tool-hero .hero-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.ai-tool-detail .tool-hero .hero-content .tool-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.ai-tool-detail .tool-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+}
+
+.ai-tool-detail .tool-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ai-tool-detail .tool-actions .visit-btn {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.ai-tool-detail .tool-actions .visit-btn:hover {
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+}
+
+.ai-tool-detail .tool-actions .upvote-btn {
+  background: var(--light-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-tool-detail .tool-actions .upvote-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.ai-tool-detail .tool-actions .upvote-btn.voted {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Reviews section */
+.ai-reviews {
+  margin-top: 2rem;
+}
+
+.ai-reviews h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.ai-reviews .review-item {
+  background: var(--light-bg);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ai-reviews .review-item .review-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ai-reviews .review-item .review-header .rating {
+  font-weight: 600;
+  color: var(--warning-color);
+}
+
+.ai-reviews .review-item .review-header .reviewer {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.ai-reviews .review-item .review-comment {
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* Pagination */
+.ai-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.ai-pagination .page-info {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.ai-pagination .page-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.ai-pagination .page-link:hover {
+  background: var(--light-bg);
+  color: var(--text-dark);
+}
+
+/* Categories page */
+.ai-categories-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  gap: 1.5rem !important;
+}
+
+.ai-category-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ai-category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ai-category-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.ai-category-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ai-category-card h3 a:hover {
+  color: var(--primary-color);
+}
+
+.ai-category-card .category-description {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Stats */
+.ai-stats {
+  background: var(--light-bg);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .ai-tools-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .ai-categories-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .ai-tool-detail {
+    padding: 1rem;
+  }
+  
+  .ai-tools-filters form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .ai-tools-filters .flex-grow-1 {
+    min-width: auto;
+  }
+  
+  .ai-tools-filters .filter-select {
+    min-width: auto;
+  }
+}
+
+/* Debug styles to ensure grid works */
+.ai-tools-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 1.5rem !important;
+}
+
+.ai-tool-card {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 200px !important;
+}

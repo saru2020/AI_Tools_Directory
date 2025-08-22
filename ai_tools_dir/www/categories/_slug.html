@@ -1,0 +1,54 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<div class="ai-tools-container">
+  {% if category %}
+    <div class="ai-tools-header">
+      <h1>{{ category.name }}</h1>
+      {% if category.description %}
+        <p class="subtitle">{{ category.description }}</p>
+      {% endif %}
+    </div>
+    
+    <div class="ai-stats">
+      Showing {{ tools|length }} tools in this category
+    </div>
+    
+    <div class="ai-tools-grid">
+      {% for t in tools %}
+        <div class="ai-tool-card">
+          {% if t.logo %}
+            <a href="/tools/{{ t.slug }}">
+              <img class="tool-logo" src="{{ t.logo }}" alt="{{ t.tool_name }} logo" />
+            </a>
+          {% endif %}
+          
+          <h3 class="tool-title">
+            <a href="/tools/{{ t.slug }}">{{ t.tool_name }}</a>
+          </h3>
+          
+          <div class="tool-meta">
+            {% if t.pricing %}
+              <div class="meta-item">
+                <span>💰</span>
+                <span>{{ t.pricing }}</span>
+              </div>
+            {% endif %}
+            {% if t.average_rating %}
+              <div class="meta-item">
+                <span>⭐</span>
+                <span>{{ t.average_rating }}</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="ai-tool-detail">
+      <h1>Category Not Found</h1>
+      <p>The category you're looking for doesn't exist or has been removed.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+

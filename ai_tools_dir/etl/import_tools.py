@@ -16,6 +16,23 @@ def map_pricing(val: str) -> str:
 	return ""
 
 
+def ensure_category(category_title: str) -> str:
+	"""Ensure Category exists and return its name. Defaults to 'General' when empty."""
+	title = (category_title or "").strip() or "General"
+	slug = slugify(title)
+	existing = frappe.db.get_value("Category", {"slug": slug}, "name") or frappe.db.exists("Category", slug)
+	if existing:
+		return existing
+	cat = frappe.get_doc({
+		"doctype": "Category",
+		"name": title,
+		"slug": slug,
+		"description": title,
+	})
+	cat.insert(ignore_permissions=True)
+	return cat.name
+
+
 def import_tools_from_csv(csv_path: str) -> dict:
 	if not os.path.exists(csv_path):
 		raise FileNotFoundError(csv_path)
@@ -40,7 +57,10 @@ def import_tools_from_csv(csv_path: str) -> dict:
 				doc.tool_name = name
 				doc.description = (row.get("description") or "").strip()
 				doc.website = (row.get("website") or "").strip()
-				doc.category = (row.get("category") or "").strip()
+				category_title = (row.get("category") or "").strip()
+				catname = ensure_category(category_title)
+				if catname:
+					doc.category = catname
 				doc.pricing = map_pricing(row.get("pricing") or "")
 				# For logo, if Attach Image expects file, store URL in doc.logo as-is; app can fetch later
 				doc.logo = (row.get("logo") or "").strip()

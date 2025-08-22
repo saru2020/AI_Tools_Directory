@@ -1,6 +1,6 @@
 {
   "doctype": "DocType",
-  "name": "Category",
+  "name": "Tool Vote",
   "module": "AI Tools Directory",
   "custom": 0,
   "istable": 0,
@@ -8,19 +8,17 @@
   "is_submittable": 0,
   "track_changes": 1,
   "allow_rename": 1,
-  "title_field": "name",
-  "autoname": "field:slug",
+  "autoname": "format:TV-{####}",
   "fields": [
-    {"fieldname": "name", "label": "Name", "fieldtype": "Data", "reqd": 1},
-    {"fieldname": "slug", "label": "Slug", "fieldtype": "Data", "reqd": 1, "unique": 1},
-    {"fieldname": "description", "label": "Description", "fieldtype": "Small Text"}
+    {"fieldname": "tool", "label": "Tool", "fieldtype": "Link", "options": "Tool", "reqd": 1},
+    {"fieldname": "user", "label": "User", "fieldtype": "Link", "options": "User", "reqd": 1}
   ],
   "permissions": [
     {"role": "System Manager", "create": 1, "read": 1, "write": 1, "delete": 1},
     {"role": "Administrator", "create": 1, "read": 1, "write": 1, "delete": 1},
     {"role": "Moderator", "create": 1, "read": 1, "write": 1, "delete": 1},
-    {"role": "Author", "create": 1, "read": 1, "write": 1},
-    {"role": "Website User", "read": 1},
-    {"role": "All", "read": 1}
+    {"role": "Website User", "create": 1, "read": 1}
   ]
 }
+
+

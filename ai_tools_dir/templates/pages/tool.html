@@ -1,0 +1,52 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+{% set slug = frappe.form_dict.slug %}
+{% set tool = frappe.get_doc("Tool", slug) if slug else None %}
+<div class="container">
+  <style>
+    .hero-logo { max-height: 300px; width: auto; height: auto; object-fit: contain; border-radius: 8px; background: #f3f4f6; display: block; }
+    .muted { color: #6b7280; }
+  </style>
+  {% if tool %}
+    <h1>{{ tool.tool_name }}</h1>
+    {% if tool.logo %}<img class="hero-logo" src="{{ tool.logo }}" alt="{{ tool.tool_name }} logo" />{% endif %}
+    {% if tool.description %}<p>{{ tool.description }}</p>{% endif %}
+    {% if tool.website %}<p><a href="{{ tool.website }}" target="_blank" rel="noopener">Visit Website</a></p>{% endif %}
+    {% if tool.pricing %}<p class="muted">Pricing: {{ tool.pricing }}</p>{% endif %}
+    {% if tool.category %}<p class="muted">Category: {{ tool.category }}</p>{% endif %}
+    {% if tool.average_rating %}<p class="muted">Rating: {{ tool.average_rating }}{% if tool.review_count %} ({{ tool.review_count }} reviews){% endif %}</p>{% endif %}
+    {% set has_voted = (frappe.session.user and frappe.session.user != 'Guest' and frappe.db.exists('Tool Vote', {'tool': tool.name, 'user': frappe.session.user})) %}
+    <p><button onclick="return upvote('{{ tool.slug }}', this)">{% if has_voted %}▼ Remove Upvote{% else %}▲ Upvote{% endif %}</button> <span class="muted" id="upvote-count">{{ tool.upvote_count or 0 }}</span></p>
+
+    {% set reviews = frappe.get_all("Review", fields=["name","user","rating","comment"], filters={"tool": tool.name}, order_by="modified desc") %}
+    {% if reviews %}
+      <h2>Reviews</h2>
+      <ul>
+        {% for r in reviews %}
+          <li><strong>{{ r.rating }}/5</strong>{% if r.comment %} — {{ r.comment }}{% endif %} {% if r.user %}<em>by {{ r.user }}</em>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% else %}
+    <p>Tool not found.</p>
+  {% endif %}
+</div>
+<script>
+  function upvote(slug, btn){
+    fetch('/api/method/ai_tools_dir.api.vote.toggle_upvote?slug=' + encodeURIComponent(slug), {
+      method: 'GET'
+    }).then(function(r){ return r.json(); }).then(function(data){
+      if (data && data.message && data.message.login_required){
+        window.location.href = '/login';
+      } else {
+        var countSpan = document.getElementById('upvote-count');
+        var currentCount = parseInt(countSpan.textContent) || 0;
+        countSpan.textContent = currentCount + (data.message.status === 'added' ? 1 : -1);
+        btn.textContent = data.message.status === 'added' ? '▼ Remove Upvote' : '▲ Upvote';
+      }
+    }).catch(function(){});
+    return false;
+  }
+</script>
+{% endblock %}
+
