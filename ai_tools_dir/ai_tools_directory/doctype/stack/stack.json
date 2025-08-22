@@ -1,0 +1,22 @@
+{
+  "doctype": "DocType",
+  "name": "Stack",
+  "module": "AI Tools Directory",
+  "custom": 0,
+  "istable": 0,
+  "editable_grid": 1,
+  "is_submittable": 0,
+  "track_changes": 1,
+  "allow_rename": 1,
+  "title_field": "name",
+  "autoname": "field:name",
+  "fields": [
+    {"fieldname": "name", "label": "Name", "fieldtype": "Data", "reqd": 1},
+    {"fieldname": "description", "label": "Description", "fieldtype": "Small Text"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "Administrator", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "All", "read": 1}
+  ]
+}

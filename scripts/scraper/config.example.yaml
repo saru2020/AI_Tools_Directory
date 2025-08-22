@@ -1,0 +1,14 @@
+sources:
+  - name: example_directory
+    base_url: https://example.com/ai-tools
+    list_selector: div.tool-card
+    fields:
+      name: .tool-title
+      description: .tool-description
+      website: a.tool-link@href
+      category: .tool-category
+      pricing: .tool-pricing
+      logo: img.tool-logo@src
+output_csv: ai_tools_seed.csv
+rate_limit_per_sec: 1
+user_agent: AI-Tools-Dir-Scraper/1.0 (+contact@example.com)

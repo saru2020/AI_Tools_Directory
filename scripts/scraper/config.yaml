@@ -1,0 +1,35 @@
+output_csv: ai_tools_seed.csv
+rate_limit_per_sec: 1.0
+request_timeout_sec: 20
+user_agent: "AI-Tools-Dir-Scraper/1.0"
+
+sources:
+  - name: futurepedia
+    mode: sitemap
+    sitemap_url: https://www.futurepedia.io/sitemap.xml
+    limit: 2000
+
+  - name: toolify
+    mode: sitemap
+    sitemap_url: https://www.toolify.ai/sitemap.xml
+    limit: 2000
+
+  - name: topai
+    mode: sitemap
+    sitemap_url: https://topai.tools/sitemap.xml
+    limit: 2000
+
+  - name: theresanaiforthat
+    mode: sitemap
+    sitemap_url: https://theresanaiforthat.com/sitemap.xml
+    limit: 2000
+
+  - name: easywithai
+    mode: sitemap
+    sitemap_url: https://easywithai.com/sitemap.xml
+    limit: 2000
+
+  - name: futuretools
+    mode: sitemap
+    sitemap_url: https://www.futuretools.io/sitemap.xml
+    limit: 2000

@@ -1,0 +1,25 @@
+{
+  "doctype": "DocType",
+  "name": "Review",
+  "module": "AI Tools Directory",
+  "custom": 0,
+  "istable": 0,
+  "editable_grid": 1,
+  "is_submittable": 0,
+  "track_changes": 1,
+  "allow_rename": 1,
+  "title_field": "tool",
+  "autoname": "format:RV-{####}",
+  "fields": [
+    {"fieldname": "tool", "label": "Tool", "fieldtype": "Link", "options": "Tool", "reqd": 1},
+    {"fieldname": "user", "label": "User", "fieldtype": "Link", "options": "User"},
+    {"fieldname": "rating", "label": "Rating", "fieldtype": "Int", "reqd": 1, "default": 5},
+    {"fieldname": "comment", "label": "Comment", "fieldtype": "Text"}
+  ],
+  "permissions": [
+    {"role": "System Manager", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "Administrator", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "All", "read": 1, "create": 1}
+  ],
+  "validate": "ai_tools_dir.ai_tools_directory.doctype.review.review.validate"
+}

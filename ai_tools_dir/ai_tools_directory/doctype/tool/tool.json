@@ -1,0 +1,32 @@
+{
+  "doctype": "DocType",
+  "name": "Tool",
+  "module": "AI Tools Directory",
+  "custom": 0,
+  "istable": 0,
+  "editable_grid": 1,
+  "is_submittable": 0,
+  "track_changes": 1,
+  "allow_rename": 1,
+  "title_field": "tool_name",
+  "autoname": "field:slug",
+  "fields": [
+    {"fieldname": "tool_name", "label": "Tool Name", "fieldtype": "Data", "reqd": 1},
+    {"fieldname": "slug", "label": "Slug", "fieldtype": "Data", "reqd": 1, "unique": 1},
+    {"fieldname": "description", "label": "Description", "fieldtype": "Text Editor"},
+    {"fieldname": "pricing", "label": "Pricing", "fieldtype": "Select", "options": "Free\nFreemium\nPaid"},
+    {"fieldname": "website", "label": "Website", "fieldtype": "Data", "options": "URL"},
+    {"fieldname": "category", "label": "Category", "fieldtype": "Link", "options": "Category"},
+    {"fieldname": "tags", "label": "Tags", "fieldtype": "Tag"},
+    {"fieldname": "logo", "label": "Logo", "fieldtype": "Attach Image"},
+    {"fieldname": "average_rating", "label": "Average Rating", "fieldtype": "Float", "read_only": 1},
+    {"fieldname": "review_count", "label": "Review Count", "fieldtype": "Int", "read_only": 1},
+    {"fieldname": "click_count", "label": "Click Count", "fieldtype": "Int", "read_only": 1},
+    {"fieldname": "upvote_count", "label": "Upvote Count", "fieldtype": "Int", "read_only": 1}
+  ],
+  "permissions": [
+    {"role": "System Manager", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "Administrator", "create": 1, "read": 1, "write": 1, "delete": 1},
+    {"role": "All", "read": 1}
+  ]
+}
