@@ -5,7 +5,7 @@ def get_context(context):
     slug = frappe.form_dict.get("slug")
     if not slug:
         frappe.throw("Missing slug")
-    docname = frappe.db.get_value("Tool", {"slug": slug}, "name")
+    docname = frappe.db.get_value("Tool", {"slug": slug, "ingestion_status": "Approved"}, "name")
     if not docname:
         frappe.throw("Not Found", frappe.DoesNotExistError)
     context.tool = frappe.get_doc("Tool", docname)

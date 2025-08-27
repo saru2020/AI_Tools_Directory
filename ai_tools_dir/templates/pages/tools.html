@@ -64,6 +64,7 @@
   {% if frappe.form_dict.category %}
     {% set filters = filters + [["category", "=", frappe.db.get_value('Category', {"slug": frappe.form_dict.category}, 'name')]] %}
   {% endif %}
+  {% set filters = filters + [["ingestion_status", "=", "Approved"]] %}
   {% set tools = frappe.get_all(
       "Tool",
       fields=["name", "tool_name", "slug", "pricing", "logo", "average_rating", "upvote_count"],

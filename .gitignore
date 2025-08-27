@@ -1,0 +1,24 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Frappe specific
+*.compiled
+*.pyc
+*.pyo
+*.pyd
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+
+# Node modules (if any frontend components)
+node_modules/
+
+# Cache and temp files
+.cache/
+*.tmp
+*.temp

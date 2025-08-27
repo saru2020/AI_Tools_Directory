@@ -12,7 +12,7 @@ def get_context(context):
     context.tools = frappe.get_all(
         "Tool",
         fields=["name", "tool_name", "slug", "pricing", "logo", "average_rating"],
-        filters={"category": context.category.name},
+        filters={"category": context.category.name, "ingestion_status": "Approved"},
         order_by="modified desc",
         limit=100,
     )
