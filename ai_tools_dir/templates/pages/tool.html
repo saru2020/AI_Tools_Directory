@@ -4,7 +4,7 @@
 {% set tool = frappe.get_doc("Tool", slug) if slug else None %}
 <div class="container">
   <style>
-    .hero-logo { max-height: 300px; width: auto; height: auto; object-fit: contain; border-radius: 8px; background: #f3f4f6; display: block; }
+    .hero-logo { max-height: 300px; width: auto; height: auto; object-fit: contain; object-position: center; border-radius: 8px; background: #f3f4f6; display: block; }
     .muted { color: #6b7280; }
   </style>
   {% if tool %}

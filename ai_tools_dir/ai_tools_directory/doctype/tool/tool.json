@@ -19,6 +19,8 @@
     {"fieldname": "category", "label": "Category", "fieldtype": "Link", "options": "Category"},
     {"fieldname": "tags", "label": "Tags", "fieldtype": "Tag"},
     {"fieldname": "logo", "label": "Logo", "fieldtype": "Attach Image"},
+    {"fieldname": "source", "label": "Source", "fieldtype": "Data", "read_only": 1},
+    {"fieldname": "ingestion_status", "label": "Ingestion Status", "fieldtype": "Select", "options": "Draft\nPending Review\nApproved\nRejected", "default": "Draft"},
     {"fieldname": "average_rating", "label": "Average Rating", "fieldtype": "Float", "read_only": 1},
     {"fieldname": "review_count", "label": "Review Count", "fieldtype": "Int", "read_only": 1},
     {"fieldname": "click_count", "label": "Click Count", "fieldtype": "Int", "read_only": 1},

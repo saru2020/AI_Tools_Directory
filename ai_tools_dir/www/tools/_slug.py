@@ -9,9 +9,7 @@ def get_context(context):
     if not docname:
         frappe.throw("Not Found", frappe.DoesNotExistError)
     context.tool = frappe.get_doc("Tool", docname)
-    # increment click/view count upon opening detail page
-    frappe.db.sql("UPDATE `tabTool` SET click_count = COALESCE(click_count, 0) + 1 WHERE name = %s", (docname,))
-    frappe.db.commit()
+    # Click tracking is now handled by the frontend trackClick function
     # current user's vote state
     user = frappe.session.user
     has_voted = False

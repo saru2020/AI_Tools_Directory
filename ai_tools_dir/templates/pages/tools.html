@@ -139,12 +139,30 @@
   <script>
     function trackClick(slug){
       try {
-        fetch('/api/method/ai_tools_dir.api.track.click_tool', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ slug: slug })
-        }).catch(function(){});
-      } catch(e) {}
+        console.log('Tracking click for:', slug);
+        // Use GET method to avoid CSRF token issues
+        // Add timestamp to prevent caching issues
+        const timestamp = new Date().getTime();
+        const url = '/api/method/ai_tools_dir.api.track.click_tool?slug=' + encodeURIComponent(slug) + '&_t=' + timestamp;
+        console.log('Making request to:', url);
+        
+        fetch(url, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache'
+          }
+        }).then(function(response) {
+          console.log('Click tracking response:', response.status, response.statusText);
+          if (!response.ok) {
+            console.error('Click tracking failed with status:', response.status);
+          }
+        }).catch(function(e){
+          console.error('Click tracking failed:', e);
+        });
+      } catch(e) {
+        console.error('Click tracking error:', e);
+      }
       return true;
     }
     

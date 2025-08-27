@@ -39,13 +39,26 @@ def import_tools_from_csv(csv_path: str) -> dict:
 	created, updated, skipped = 0, 0, 0
 	with open(csv_path, newline="", encoding="utf-8") as f:
 		reader = csv.DictReader(f)
+
+		def get_first(row: dict, keys: list[str]) -> str:
+			for k in keys:
+				if k in row and row[k] is not None and str(row[k]).strip() != "":
+					return str(row[k])
+			return ""
+
 		for row in reader:
 			try:
-				slug = slugify(row.get("domain"))
+				# Accept both seed schema and Frappe export schema
+				domain = get_first(row, ["domain", "Domain"]) or ""
+				slug_field = get_first(row, ["slug", "Slug"]) or ""
+				website_field = get_first(row, ["website", "Website"]) or ""
+				# Prefer domain -> slug column -> fallback to website host
+				base_for_slug = domain or slug_field or website_field
+				slug = slugify(base_for_slug)
 				if not slug:
 					skipped += 1
 					continue
-				name = (row.get("name") or slug.split(".")[0]).strip()[:140]
+				name = (get_first(row, ["name", "Tool Name"]) or slug.split(".")[0]).strip()[:140]
 				docname = frappe.db.exists("Tool", {"slug": slug})
 				if docname:
 					doc = frappe.get_doc("Tool", docname)
@@ -55,15 +68,20 @@ def import_tools_from_csv(csv_path: str) -> dict:
 					doc.slug = slug
 					created += 1
 				doc.tool_name = name
-				doc.description = (row.get("description") or "").strip()
-				doc.website = (row.get("website") or "").strip()
-				category_title = (row.get("category") or "").strip()
+				doc.description = get_first(row, ["description", "Description"]).strip()
+				doc.website = website_field.strip()
+				category_title = get_first(row, ["category", "Category"]).strip()
 				catname = ensure_category(category_title)
 				if catname:
 					doc.category = catname
-				doc.pricing = map_pricing(row.get("pricing") or "")
+				doc.pricing = map_pricing(get_first(row, ["pricing", "Pricing"]))
 				# For logo, if Attach Image expects file, store URL in doc.logo as-is; app can fetch later
-				doc.logo = (row.get("logo") or "").strip()
+				doc.logo = get_first(row, ["logo", "Logo"]).strip()
+				# Ingestion tracking
+				doc.source = (get_first(row, ["source", "Source"]) or "scraper").strip()
+				if not getattr(doc, "ingestion_status", None):
+					# default new records to Pending Review; preserve existing status on updates
+					doc.ingestion_status = "Pending Review"
 				doc.save(ignore_permissions=True)
 			except Exception:
 				frappe.db.rollback()

@@ -80,6 +80,13 @@ Day 4: Content Seeding + Submissions
   - [x] Build Python script to scrape 200+ tools (from public directories)
   - [x] Normalize fields into CSV
   - [ ] Import into Frappe with Data Import
+- [ ] Ingestion Pipeline (Desk pages)
+  - [ ] Scrape multiple sources -> export CSV -> validate/edit -> approve -> upsert
+  - [ ] User submissions -> validate/edit -> approve -> upsert
+  - [x] Implement desk page(s) for CSV upload, review queue, and approvals
+  - [ ] Background job(s) for long-running scraping and upserts; idempotent
+  - [ ] Upsert strategy: match on domain+slug; dedupe; track provenance
+  - [x] Reuse Tool with ingestion_status + source; approve/reject methods
 - [ ] Submission Form
   - [ ] Public "Submit a Tool" page
   - [ ] Store as draft in Tool
