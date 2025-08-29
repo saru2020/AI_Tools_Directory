@@ -1,0 +1,38 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<script>
+  document.documentElement.classList.add('hide-frappe-chrome');
+</script>
+<button class="side-menu-toggle" onclick="window.aitools_menu && window.aitools_menu.toggle()">☰</button>
+
+<div class="header">
+  <h1>Categories</h1>
+</div>
+
+{% set categories = frappe.get_all('Category', fields=['name','slug']) %}
+<section class="grid">
+  {% if categories %}
+    {% for c in categories %}
+      {% set tool_count = frappe.db.count('Tool', filters={'category': c.name, 'ingestion_status': 'Approved'}) %}
+      <div class="card">
+        <a href="/categories/{{ c.slug }}">{{ c.name }}</a>
+        <span class="count">{{ tool_count }} tools</span>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="grid-column: 1 / -1; color: #6b7280;">No categories found.</p>
+  {% endif %}
+</section>
+
+<style>
+  .side-menu-toggle { position: fixed; top: 16px; left: 16px; z-index: 1001; background: #111827; color: #fff; border: none; border-radius: 10px; padding: 10px 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .header { padding: 28px 20px 10px; }
+  h1 { margin: 0; font-size: 28px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 16px 20px 40px; max-width: 1080px; margin: 0 auto; }
+  .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.5rem; background: white; display: flex; justify-content: space-between; align-items: center; }
+  .card a { color: #111827; text-decoration: none; font-weight: 600; }
+  .count { color: #6b7280; font-size: 12px; }
+</style>
+{% endblock %}
+
+

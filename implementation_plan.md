@@ -1,4 +1,3 @@
-```text
 AI Tools Directory - Implementation Plan (Frappe)
 
 Goal: Launch a fully functional AI tools directory in 1 week with ALL core + growth + differentiation features live.
@@ -12,9 +11,10 @@ Day 1: Setup & Foundations
   - [x] Create new site + new app
   - [x] Configure MariaDB, Redis
   - [x] Init repo + push to GitHub
-- [ ] Theme/UI
-  - [ ] Pick Frappe theme
-  - [ ] Add navbar (Home, Categories, Submit Tool, Blog)
+- [x] Theme/UI
+  - [x] Global CSS via `web_include_css`
+  - [x] Replace Frappe header/footer with custom chrome
+  - [x] Side popover menu injected via `web_include_js`
 
 - [x] Prerequisites
   - [x] Pin Python, Node/Yarn, Frappe/bench versions
@@ -57,12 +57,14 @@ Day 3: Core Features
   - [x] Tool listing grid
   - [x] Category filter
   - [x] Search bar
+  - [x] Homepage defaults to tools listing with category segments
 - [x] Tool Detail Page
   - [x] Show description, pricing, tags
   - [x] Show reviews
   - [ ] "Similar tools" (same category)
-- [ ] Category Pages
-  - [ ] Tools grouped by category
+- [x] Category Pages
+  - [x] Category index with counts and links
+  - [x] Updated to use new side menu and hide Frappe chrome
 - [ ] Admin Dashboard
   - [ ] CRUD for tools, categories, stacks
   - [ ] Basic analytics (views/clicks logging)
@@ -202,5 +204,4 @@ Launch Deliverables (End of Week)
   - 200+ tools deduplicated with logo, description, and category
   - Pages have valid structured data and pass basic SEO audits
   - Error rate < 1% and uptime > 99.9% during launch window
-```
 

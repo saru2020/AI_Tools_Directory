@@ -1,5 +1,10 @@
 {% extends "templates/web.html" %}
 {% block page_content %}
+<script>
+  document.documentElement.classList.add('hide-frappe-chrome');
+</script>
+<button class="side-menu-toggle" onclick="window.aitools_menu && window.aitools_menu.toggle()">☰</button>
+
 <div class="ai-tools-container">
   {% if category %}
     <div class="ai-tools-header">

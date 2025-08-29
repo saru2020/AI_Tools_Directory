@@ -31,7 +31,9 @@ app_description = "Directory of AI tools built with Frappe"
 
 # include js, css files in header of web template
 web_include_css = "/assets/ai_tools_dir/css/ai_tools.css"
-# web_include_js = "/assets/ai_tools_dir/js/ai_tools_dir.js"
+web_include_js = [
+    "/assets/ai_tools_dir/js/global_menu.js",
+]
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "ai_tools_dir/public/scss/ai_tools"
@@ -60,7 +62,7 @@ doctype_list_js = {
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+home_page = "index"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -78,6 +80,7 @@ website_route_rules = [
     {"from_route": "/tool/<slug>", "to_route": "tools/<slug>"},
     {"from_route": "/tools/<slug>", "to_route": "/tools/_slug"},
     {"from_route": "/categories/<slug>", "to_route": "/categories/_slug"},
+    {"from_route": "/tools", "to_route": "/"},
 ]
 
 # Jinja

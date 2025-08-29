@@ -1,0 +1,87 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<button class="side-menu-toggle" onclick="window.aitools_menu && window.aitools_menu.toggle()">☰</button>
+
+<section class="hero">
+  <h1>AI Tools</h1>
+  <p>Search and filter by category. Browse and discover AI tools.</p>
+</section>
+
+<div class="ai-tools-container">
+  <div class="ai-tools-filters">
+    <form method="get" class="d-flex gap-3 flex-wrap align-items-end">
+      <div class="flex-grow-1">
+        <input id="tools-search" type="text" name="q" value="{{ q }}" placeholder="Search tools..." class="search-input w-100" autofocus />
+      </div>
+      <div>
+        <select name="sort" onchange="this.form.submit()" class="filter-select">
+          <option value="modified desc" {% if sort == 'modified desc' %}selected{% endif %}>Newest</option>
+          <option value="average_rating desc" {% if sort == 'average_rating desc' %}selected{% endif %}>Top Rated</option>
+        </select>
+      </div>
+      <div>
+        <a href="/" class="reset-link">Reset</a>
+      </div>
+    </form>
+    <div style="margin-top: 12px; display: flex; gap: 8px; overflow:auto; padding-bottom: 4px;">
+      <a href="/" class="btn btn-outline" style="white-space:nowrap;">All</a>
+      {% for c in categories %}
+        <a href="/?category={{ c.slug }}" class="btn btn-outline" style="white-space:nowrap;">{{ c.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {# tools, my_voted_tools, total, total_pages, page, q, sort, category_slug are provided by index.py #}
+
+  <div class="ai-stats">
+    {% if total == 0 %}
+      No results found.
+    {% else %}
+      Showing {{ tools|length }} of {{ total }} tools
+    {% endif %}
+  </div>
+
+  <div class="ai-tools-grid">
+    {% for t in tools %}
+    <div class="ai-tool-card">
+      {% if t.logo %}
+        <a href="/tools/{{ t.slug }}">
+          <img class="tool-logo" src="{{ t.logo }}" alt="{{ t.tool_name }} logo" />
+        </a>
+      {% endif %}
+      <h3 class="tool-title">
+        <a href="/tools/{{ t.slug }}">{{ t.tool_name }}</a>
+      </h3>
+      <div class="tool-meta">
+        {% if t.pricing %}
+          <div class="meta-item"><span>💰</span><span>{{ t.pricing }}</span></div>
+        {% endif %}
+        {% if t.average_rating %}
+          <div class="meta-item"><span>⭐</span><span>{{ t.average_rating }}</span></div>
+        {% endif %}
+      </div>
+      <div class="tool-actions">
+        <button class="upvote-btn {% if t.voted_by_me %}voted{% endif %}" data-slug="{{ t.slug }}">
+          {% if t.voted_by_me %}▼ Remove Upvote{% else %}▲ Upvote{% endif %}</button>
+        <span class="upvote-count">{{ t.upvote_count or 0 }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if total_pages > 1 %}
+    <div class="ai-pagination">
+      {% if page > 1 %}
+        <a href="?page={{ page - 1 }}{% if q %}&q={{ q }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="page-link">← Previous</a>
+      {% endif %}
+      <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+      {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}{% if q %}&q={{ q }}{% endif %}{% if category_slug %}&category={{ category_slug }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="page-link">Next →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<script></script>
+{% endblock %}
+
+
