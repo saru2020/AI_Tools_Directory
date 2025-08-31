@@ -1,0 +1,29 @@
+2025-08-31 17:02:53,181 - INFO - Connecting to existing Chrome instance on port 9222...
+2025-08-31 17:03:23,258 - ERROR - Failed to connect to Chrome on port 9222: 
+127.0.0.1:9222浏览器无法链接。
+请确认：
+1、该端口为浏览器
+2、已添加'--remote-debugging-port=9222'启动项
+3、用户文件夹没有和已打开的浏览器冲突
+4、如为无界面系统，请添加'--headless=new'参数
+5、如果是Linux系统，可能还要添加'--no-sandbox'启动参数
+可使用ChromiumOptions设置端口和用户文件夹路径。
+2025-08-31 17:03:23,261 - ERROR - Make sure Chrome is running with --remote-debugging-port=9222
+2025-08-31 17:03:23,261 - ERROR - Error setting up browser: 
+127.0.0.1:9222浏览器无法链接。
+请确认：
+1、该端口为浏览器
+2、已添加'--remote-debugging-port=9222'启动项
+3、用户文件夹没有和已打开的浏览器冲突
+4、如为无界面系统，请添加'--headless=new'参数
+5、如果是Linux系统，可能还要添加'--no-sandbox'启动参数
+可使用ChromiumOptions设置端口和用户文件夹路径。
+2025-08-31 17:03:23,261 - INFO - Trying fallback browser setup...
+2025-08-31 17:03:29,436 - INFO - Fallback browser setup completed
+2025-08-31 17:03:29,436 - INFO - Connecting to existing Chrome instance on port 9222...
+2025-08-31 17:03:29,439 - INFO - Successfully connected to Chrome on port 9222
+2025-08-31 17:03:29,439 - INFO - Navigating to: https://theresanaiforthat.com/alphabetical/
+2025-08-31 18:22:46,570 - INFO - Cloudflare protection detected, attempting to bypass...
+2025-08-31 19:01:35,452 - ERROR - Cloudflare bypass failed
+2025-08-31 19:01:35,455 - ERROR - Failed to bypass Cloudflare on main page
+2025-08-31 19:01:36,589 - INFO - Browser closed
